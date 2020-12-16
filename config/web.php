@@ -11,22 +11,42 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'adminPermission' => 'administrator'
+//            'admins' => ['admin']
+        ],
+        'rbac' => 'dektrium\rbac\RbacWebModule',
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '30XwOWGimxdkO1DoGgbzyppyADs3pQHa',
+            'cookieValidationKey' => 'xK59rkkEv6NOWWJRIJS5Hg96hZb_dcSU',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => getenv('REDIS_DB'),
+        ],
+        'authManager'=>[
+            'class' => 'dektrium\rbac\components\DbManager',
+            'defaultRoles' => ['user'],
+        ],
         'user' => [
-            'class' => 'dektrium\user\Module',
-        'enableUnconfirmedLogin' => true,
-        'confirmWithin' => 21600,
-        'cost' => 12,
-        'admins' => ['admin']
-            //'identityClass' => 'app\models\User',
-            //'enableAutoLogin' => true,
+            'identityClass' => 'dektrium\user\models\User',
+//            'defaultRoles' => ['admin', 'viewer'],
+            'enableAutoLogin' => true,
+            'identityCookie' => [
+                'name' => '_identity',
+                'httpOnly' => false,
+                'domain' => '.' . $params['domain'],
+            ],
+            'loginUrl' => ['/user/security/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -36,7 +56,16 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'transport' => [
+                    'class' => 'Swift_SmtpTransport',
+                    'host' => 'smtp.yandex.ru',
+                    'username' => getenv('APP_MAILER_USERNAME'),
+                    'password' => getenv('APP_MAILER_PASSWORD'),
+                    'port' => 465,
+                    'encryption' => 'ssl',
+             ],
+            'enableSwiftMailerLogging' =>false,
+            'useFileTransport' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -48,14 +77,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
