@@ -4,7 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => getenv('APP_ID'),
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -14,10 +14,11 @@ $config = [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
-            'adminPermission' => 'administrator',
             'modelMap' => [
                 'User' => 'app\models\User',
+                'Profile' => 'app\models\Profile',
             ],
+            'adminPermission' => 'administrator',
          //'admins' => ['admin']
         ],
         'rbac' => 'dektrium\rbac\RbacWebModule',
@@ -44,7 +45,7 @@ $config = [
             'defaultRoles' => ['user'],
         ],
         'user' => [
-            'identityClass' => 'dektrium\user\models\User',
+            'identityClass' => 'app\models\User',
 //            'defaultRoles' => ['admin', 'viewer'],
             'enableAutoLogin' => true,
             'identityCookie' => [
@@ -88,7 +89,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'default'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['api/default']
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['api/post']
+                ],
             ],
         ],
 
