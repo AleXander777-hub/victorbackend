@@ -21,6 +21,9 @@ $config = [
          //'admins' => ['admin']
         ],
         'rbac' => 'dektrium\rbac\RbacWebModule',
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -85,6 +88,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'default'],
             ],
         ],
 
