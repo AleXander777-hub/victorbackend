@@ -44,7 +44,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['category_id', 'author_id', 'is_commentable', 'is_enable', 'status'], 'integer'],
-            [['created_at', 'is_commentable', 'slug', 'title', 'status', 'media', 'text'], 'required'],
+            [['created_at', 'is_commentable', 'slug', 'title', 'status', 'text'], 'required'],
             [['created_at', 'modified_at'], 'safe'],
             [['text', 'annotation'], 'string'],
             [['slug', 'title', 'meta_title', 'keywords', 'description'], 'string', 'max' => 255],

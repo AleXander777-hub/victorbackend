@@ -15,6 +15,9 @@ $config = [
         'user' => [
             'class' => 'dektrium\user\Module',
             'adminPermission' => 'administrator',
+            'modelMap' => [
+                'User' => 'app\models\User',
+            ],
          //'admins' => ['admin']
         ],
         'rbac' => 'dektrium\rbac\RbacWebModule',
