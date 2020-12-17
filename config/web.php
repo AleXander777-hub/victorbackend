@@ -14,8 +14,8 @@ $config = [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
-            'adminPermission' => 'administrator'
-//            'admins' => ['admin']
+            'adminPermission' => 'administrator',
+         //'admins' => ['admin']
         ],
         'rbac' => 'dektrium\rbac\RbacWebModule',
     ],
