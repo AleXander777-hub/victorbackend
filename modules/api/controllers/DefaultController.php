@@ -2,6 +2,9 @@
 
 namespace app\modules\api\controllers;
 
+use dektrium\user\models\RegistrationForm;
+use dektrium\user\traits\AjaxValidationTrait;
+use dektrium\user\traits\EventTrait;
 use Yii;
 use app\models\User;
 use yii\filters\auth\CompositeAuth;
@@ -10,15 +13,71 @@ use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\Controller;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * Default controller for the `api` module
  */
 class DefaultController extends Controller
 {
+    use EventTrait;
+    use AjaxValidationTrait;
+
+    /**
+     * Event is triggered after creating RegistrationForm class.
+     * Triggered with \dektrium\user\events\FormEvent.
+     */
+    const EVENT_BEFORE_REGISTER = 'beforeRegister';
+
+    /**
+     * Event is triggered after successful registration.
+     * Triggered with \dektrium\user\events\FormEvent.
+     */
+    const EVENT_AFTER_REGISTER = 'afterRegister';
+
+    /**
+     * Event is triggered before connecting user to social account.
+     * Triggered with \dektrium\user\events\UserEvent.
+     */
+    const EVENT_BEFORE_CONNECT = 'beforeConnect';
+
+    /**
+     * Event is triggered after connecting user to social account.
+     * Triggered with \dektrium\user\events\UserEvent.
+     */
+    const EVENT_AFTER_CONNECT = 'afterConnect';
+
+    /**
+     * Event is triggered before confirming user.
+     * Triggered with \dektrium\user\events\UserEvent.
+     */
+    const EVENT_BEFORE_CONFIRM = 'beforeConfirm';
+
+    /**
+     * Event is triggered before confirming user.
+     * Triggered with \dektrium\user\events\UserEvent.
+     */
+    const EVENT_AFTER_CONFIRM = 'afterConfirm';
+
+    /**
+     * Event is triggered after creating ResendForm class.
+     * Triggered with \dektrium\user\events\FormEvent.
+     */
+    const EVENT_BEFORE_RESEND = 'beforeResend';
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
+        // remove authentication filter
+        $auth = $behaviors['authenticator'];
+        unset($behaviors['authenticator']);
+
+// add CORS filter
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::className(),
+        ];
+
+        $behaviors['authenticator'] = $auth;
 //        $behaviors['authenticator']['class'] = HttpBasicAuth::className();
         $behaviors['authenticator']['class'] = CompositeAuth::className();
         $behaviors['authenticator']['only'] = ['index'];
@@ -38,6 +97,7 @@ class DefaultController extends Controller
                 'tokenParam' => 'access_token'
             ]
         ];
+        $behaviors['authenticator']['except'] = ['options'];
         return $behaviors;
     }
 
@@ -61,5 +121,50 @@ class DefaultController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $result;
     }
+
+    /**
+     * Displays the registration page.
+     * After successful registration if enableConfirmation is enabled shows info message otherwise
+     * redirects to home page.
+     *
+     * @return string
+     * @throws \yii\web\HttpException
+     */
+    public function actionRegister()
+    {
+        $module = Yii::$app->getModule('user');
+        if (!$module->enableRegistration) {
+            throw new NotFoundHttpException();
+        }
+
+        /** @var RegistrationForm $model */
+        $model = \Yii::createObject(RegistrationForm::className());
+        $event = $this->getFormEvent($model);
+
+        $this->trigger(self::EVENT_BEFORE_REGISTER, $event);
+
+        $this->performAjaxValidation($model);
+
+        if ($model->load(\Yii::$app->request->post()) && $model->register()) {
+            $this->trigger(self::EVENT_AFTER_REGISTER, $event);
+            $result = [
+                'status' => 'success',
+                'title'  => \Yii::t('user', 'Your account has been created'),
+            ];
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            return $result;
+        }
+
+        $result = [
+            'status' => 'fail',
+            'model'  => $model->getAttributes(),
+            'errors'  => $model->getErrors(),
+        ];
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $result;
+    }
+
 
 }

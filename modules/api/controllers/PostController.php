@@ -23,6 +23,16 @@ class PostController extends ActiveController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
+        // remove authentication filter
+        $auth = $behaviors['authenticator'];
+        unset($behaviors['authenticator']);
+
+// add CORS filter
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::className(),
+        ];
+
+        $behaviors['authenticator'] = $auth;
 //        $behaviors['authenticator']['class'] = HttpBasicAuth::className();
         $behaviors['authenticator']['class'] = CompositeAuth::className();
         $behaviors['authenticator']['only'] = ['get-access-token', 'create', 'update', 'delete'];
@@ -42,6 +52,7 @@ class PostController extends ActiveController
                 'tokenParam' => 'access_token'
             ]
         ];
+        $behaviors['authenticator']['except'] = ['options'];
         return $behaviors;
     }
 
