@@ -2,8 +2,10 @@
 
 namespace app\modules\api\controllers;
 
+use app\models\Post;
 use Yii;
 use app\models\User;
+use yii\data\ActiveDataProvider;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
@@ -41,6 +43,13 @@ class PostController extends ActiveController
             ]
         ];
         return $behaviors;
+    }
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        return $actions;
     }
 
     public function beforeAction($action)
@@ -82,6 +91,12 @@ class PostController extends ActiveController
         }
     }
 
+    public function prepareDataProvider()
+    {
+        $searchModel = new \app\models\PostSearch();
+        return $searchModel->search(\Yii::$app->request->queryParams);
+    }
+
 
     public function actionLogin($email, $password) {
         $user = User::findOne(['email' => $email]);
@@ -98,12 +113,4 @@ class PostController extends ActiveController
         }
     }
 
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
 }
