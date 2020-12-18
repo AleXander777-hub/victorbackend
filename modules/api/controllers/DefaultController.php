@@ -53,7 +53,11 @@ class DefaultController extends Controller
         if (Yii::$app->user->isGuest) {
             throw new  ForbiddenHttpException('Вы не авторитизированы.');
         }
-        $result = ['access_token' => Yii::$app->user->identity->access_token];
+        $result = [
+            'access_token' => Yii::$app->user->identity->access_token,
+            'id' => Yii::$app->user->id,
+            'roles' => \Yii::$app->authManager->getRolesByUser(Yii::$app->user->id),
+        ];
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $result;
     }
