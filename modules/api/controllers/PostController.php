@@ -20,6 +20,21 @@ class PostController extends ActiveController
 {
     public $modelClass = 'app\models\Post';
 
+    /**
+     * List of allowed domains.
+     * Note: Restriction works only for AJAX (using CORS, is not secure).
+     *
+     * @return array List of domains, that can access to this API
+     */
+    public static function allowedDomains()
+    {
+        return [
+            // '*',                        // star allows all domains
+            'http://export.mystite',
+            'http://localhost:3000',
+        ];
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -30,7 +45,15 @@ class PostController extends ActiveController
 // add CORS filter
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
+            'cors' => [
+                'Origin' => self::allowedDomains(),
+                //'Access-Control-Allow-Origin' => ['*'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Request-Headers' => ['*'],
+            ],
         ];
+
 
         $behaviors['authenticator'] = $auth;
 //        $behaviors['authenticator']['class'] = HttpBasicAuth::className();

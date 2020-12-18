@@ -9,6 +9,7 @@ nbproject
 .project
 .settings
 .env
+.eslintcache
 
 # windows thumbnail cache
 Thumbs.db
