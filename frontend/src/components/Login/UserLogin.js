@@ -94,41 +94,44 @@ export class UserLogin extends React.Component {
     const username = this.state.username;
     const password = this.state.password;
     console.log("username", username, "password", password);
-
-    return (
-      <div className="updateInput mt-4">
-        <form onSubmit={(e) => this.login(e)}>
-          <div class="mb-3">
-            <label class="form-label">Имя</label>
-            <input
-              type="text"
-              class="form-control"
-              name="username"
-              onChange={(e) => this.change(e)}
-              value={this.state.username}
-            />
-            <div id="emailHelp" class="form-text">
-              We'll never share your email with anyone else.
+    if (this.props.user.success_login === false) {
+      return (
+        <div className="updateInput mt-4">
+          <form onSubmit={(e) => this.login(e)}>
+            <div class="mb-3">
+              <label class="form-label">Имя</label>
+              <input
+                type="text"
+                class="form-control"
+                name="username"
+                onChange={(e) => this.change(e)}
+                value={this.state.username}
+              />
+              <div id="emailHelp" class="form-text">
+                We'll never share your email with anyone else.
+              </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              class="form-control"
-              name="password"
-              onChange={(e) => this.change(e)}
-              value={this.state.password}
-            />
-          </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">
+                Password
+              </label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                onChange={(e) => this.change(e)}
+                value={this.state.password}
+              />
+            </div>
 
-          <button type="submit" class="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </div>
-    );
+            <button type="submit" class="btn btn-primary">
+              Submit
+            </button>
+          </form>
+        </div>
+      );
+    } else {
+      return <div className="empty"></div>;
+    }
   }
 }

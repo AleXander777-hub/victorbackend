@@ -9,6 +9,11 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { Store } from "./redux/Store";
 import reportWebVitals from "./reportWebVitals";
+import { userAPI } from "./components/utils";
+
+userAPI.defaults.headers.common[
+  "Authorization"
+] = `Bearer ${localStorage.getItem("acess_token")}`;
 
 ReactDOM.render(
   <React.StrictMode>

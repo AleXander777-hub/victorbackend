@@ -13,6 +13,7 @@ class UserLoginContainer extends Component {
         <UserLogin
           user={this.props.user}
           LoginUser={this.props.UserLoginAction}
+          history={this.props.history}
         />
       </div>
     );

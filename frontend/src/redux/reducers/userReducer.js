@@ -1,7 +1,12 @@
 import { types } from "../actions/types";
 
 export const DefaultState = {
-  username: null,
+  id: null,
+  success_login: false,
+  posts: null,
+  created_post: null,
+  success_delete: false,
+  post: null,
 };
 
 export const userReducer = (state = DefaultState, action) => {
@@ -9,7 +14,33 @@ export const userReducer = (state = DefaultState, action) => {
     case types.USER_LOGIN:
       return {
         ...state,
-        email: action.payload,
+        id: action.payload,
+        success_login: true,
+      };
+    case types.GET_ALL_POSTS:
+      return {
+        ...state,
+        posts: action.payload,
+      };
+    case types.CREATE_POST:
+      return {
+        ...state,
+        created_post: action.payload,
+      };
+    case types.DELETE_POST:
+      return {
+        ...state,
+        success_delete: true,
+      };
+    case types.GET_ONE_POST:
+      return {
+        ...state,
+        post: action.payload,
+      };
+    case types.UPDATE_POST:
+      return {
+        ...state,
+        post: action.payload,
       };
 
     default:
