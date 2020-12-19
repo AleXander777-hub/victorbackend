@@ -161,20 +161,20 @@ class DefaultController extends Controller
         return $result;
     }
 
-    public function actionUpload() {
+    public function actionUpload($width = 400, $height = 300) {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $image = UploadedFile::getInstanceByName('file');
         if (!is_null($image)) {
-            $image = $image->name;
-            $path_parts = pathinfo($image);
+            $filename = $image->name;
+            $path_parts = pathinfo($filename);
             $ext = $path_parts['extension'];
-            $image = Yii::$app->security->generateRandomString(12). $ext;
-            $path = Yii::$app->basePath . '/web/uploads/full/' . $image;
+            $filename = Yii::$app->security->generateRandomString(12). '.' . $ext;
+            $path = Yii::$app->basePath . '/web/uploads/full/' . $filename;
             $image->saveAs($path);
             $imagine = Image::getImagine();
             $image = $imagine->open($path);
-            $image->resize(new Box(400, 300))->save(Yii::$app->basePath . '/web/uploads/thumbs/' . $image, ['quality' => 70]);
-            return ['result' => 'ok', 'name' => $image, 'full' => '/uploads/full/' . $image, 'thumb' => '/uploads/thumbs/' . $image];
+            $image->resize(new Box($width, $height))->save(Yii::$app->basePath . '/web/uploads/thumbs/' . $filename, ['quality' => 70]);
+            return ['result' => 'ok', 'name' => $filename, 'full' => '/uploads/full/' . $filename, 'thumb' => '/uploads/thumbs/' . $filename];
         }
         return ['result' => 'fail'];
     }
