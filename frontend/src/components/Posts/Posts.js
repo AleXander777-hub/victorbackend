@@ -11,6 +11,7 @@ import {
   Row,
 } from "react-bootstrap";
 import ReactHtmlParser from "react-html-parser";
+import { thumb_path } from "../utils";
 
 class Posts extends React.Component {
   constructor(props) {
@@ -119,7 +120,6 @@ class Posts extends React.Component {
     console.log("Hey");
     await this.props.PostDelete(id);
     await this.getAllPosts();
-    window.location.href = "/Posts";
   }
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -155,6 +155,12 @@ class Posts extends React.Component {
             this.props.posts.map((n, i) => (
               <Card key={i} className="mb-3">
                 <Card.Body>
+                  <Card.Img
+                    variant="top"
+                    src={thumb_path + n.media}
+                    style={{ width: "18rem" }}
+                    className="ml-3 mt-3"
+                  />
                   <Card.Title>{n.title}</Card.Title>
                   <Card.Text>{ReactHtmlParser(n.text)}</Card.Text>
 

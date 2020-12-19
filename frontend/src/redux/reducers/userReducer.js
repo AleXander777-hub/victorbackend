@@ -7,6 +7,8 @@ export const DefaultState = {
   created_post: null,
   success_delete: false,
   post: null,
+  file_upload: null,
+  upload_success: false,
 };
 
 export const userReducer = (state = DefaultState, action) => {
@@ -37,10 +39,11 @@ export const userReducer = (state = DefaultState, action) => {
         ...state,
         post: action.payload,
       };
-    case types.UPDATE_POST:
+    case types.USER_UPLOAD_PICTURE:
       return {
         ...state,
-        post: action.payload,
+        upload_success: true,
+        file_upload: action.payload,
       };
 
     default:

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CreatePost from "../components/CreatePost/CreatePost";
-import { BungNewPostPlog } from "../redux/actions/userActions";
+import {
+  BungNewPostPlog,
+  UserUploadPicture,
+} from "../redux/actions/userActions";
 
 class CreatePostContainer extends Component {
   render() {
@@ -9,6 +12,7 @@ class CreatePostContainer extends Component {
       <CreatePost
         user={this.props.user}
         Bung={this.props.BungNewPostPlogAction}
+        UserUploadPicture={this.props.UploadAction}
       />
     );
   }
@@ -49,6 +53,7 @@ const mapDispatchToProps = (dispatch) => {
           author_id
         )
       ),
+    UploadAction: (file) => dispatch(UserUploadPicture(file)),
   };
 };
 const mapStateToProps = (store) => {

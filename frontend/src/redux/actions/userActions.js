@@ -75,6 +75,7 @@ export const BungNewPostPlog = (
       text,
       annotation,
       author_id,
+
       "Here"
     );
     const config = {
@@ -146,7 +147,7 @@ export const PostDelete = (id) =>
     userAPI.delete(`/api/posts/${id}`).then((res) => {
       console.log(res, "Success");
       dispatch({
-        type: types.CREATE_POST,
+        type: types.DELETE_POST,
       });
     });
 
@@ -293,4 +294,29 @@ export const PostUpdate = (
             console.log(error.response, "FUUUUCK");
           }
         });*/
+  };
+export const UserUploadPicture = (file) =>
+  async function (dispatch) {
+    console.log("UserUpload");
+    console.log(file, "DATA");
+
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(formData.get("file"), "HERE");
+
+    const response = await userAPI.post(`/api/default/upload`, formData);
+
+    console.log("SENT");
+
+    try {
+      console.log("try");
+      dispatch({
+        type: types.USER_UPLOAD_PICTURE,
+        payload: response.data, // что то долго идет дата
+      });
+      console.log(response, "Uploaded");
+      return response;
+    } catch (error) {
+      console.log("BAD");
+    }
   };

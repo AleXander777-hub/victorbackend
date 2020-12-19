@@ -44,9 +44,8 @@ class CreatePost extends React.Component {
   async uploadPicture(e) {
     e.preventDefault();
     console.log(this.state.file, "File");
-    console.log(this.props.user.createdProduct.id, "Props up");
 
-    // await this.props.UserUploadPicture()
+    await this.props.UserUploadPicture(this.state.file);
   }
   handleEditorChange(e) {
     this.setState({
@@ -167,7 +166,7 @@ class CreatePost extends React.Component {
     const description = this.state.description;
     const status = this.state.status;
     const created_at = this.state.created_at;
-    const media = "htt";
+    const media = this.props.user.file_upload.name;
     const text = this.state.text;
     const annotation = this.state.annotation;
     const author_id = localStorage.getItem("user_data");
@@ -188,10 +187,13 @@ class CreatePost extends React.Component {
       annotation,
       author_id
     );
+
+    //console.log(this.props.user.file_upload, "Obj");
   }
 
   render() {
     console.log(localStorage.getItem("user_data"), "USER");
+    console.log(this.state.file, "File");
 
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
@@ -380,6 +382,12 @@ class CreatePost extends React.Component {
               </Form.Group>
             </Col>
           </Row>
+          <button
+            className="btn btn-primary"
+            onClick={(e) => this.uploadPicture(e)}
+          >
+            Up
+          </button>
 
           {this.state.imagePreviewUrl !== "" ? (
             <Card className="mb-3 " style={{ width: "50%" }}>
