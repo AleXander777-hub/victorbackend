@@ -5,16 +5,19 @@ namespace app\modules\api\controllers;
 use dektrium\user\models\RegistrationForm;
 use dektrium\user\traits\AjaxValidationTrait;
 use dektrium\user\traits\EventTrait;
+use Imagine\Image\Box;
 use Yii;
 use app\models\User;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
+use yii\imagine\Image;
 use yii\rest\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * Default controller for the `api` module
@@ -106,7 +109,7 @@ class DefaultController extends Controller
         $behaviors['authenticator'] = $auth;
 //        $behaviors['authenticator']['class'] = HttpBasicAuth::className();
         $behaviors['authenticator']['class'] = CompositeAuth::className();
-        $behaviors['authenticator']['only'] = ['index'];
+        $behaviors['authenticator']['only'] = ['index', 'upload'];
         $behaviors['authenticator']['authMethods'] = [
             [
                 'class' =>  HttpBasicAuth::className(),
@@ -157,6 +160,25 @@ class DefaultController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $result;
     }
+
+    public function actionUpload() {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $image = UploadedFile::getInstanceByName('file');
+        if (!is_null($image)) {
+            $image = $image->name;
+            $path_parts = pathinfo($image);
+            $ext = $path_parts['extension'];
+            $image = Yii::$app->security->generateRandomString(12). $ext;
+            $path = Yii::$app->basePath . '/web/uploads/full/' . $image;
+            $image->saveAs($path);
+            $imagine = Image::getImagine();
+            $image = $imagine->open($path);
+            $image->resize(new Box(400, 300))->save(Yii::$app->basePath . '/web/uploads/thumbs/' . $image, ['quality' => 70]);
+            return ['result' => 'ok', 'full' => '/uploads/full/' . $image, 'thumb' => '/uploads/thumbs/' . $image];
+        }
+        return ['result' => 'fail'];
+    }
+
 
     /**
      * Displays the registration page.
