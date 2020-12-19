@@ -174,7 +174,7 @@ class DefaultController extends Controller
             $imagine = Image::getImagine();
             $image = $imagine->open($path);
             $image->resize(new Box(400, 300))->save(Yii::$app->basePath . '/web/uploads/thumbs/' . $image, ['quality' => 70]);
-            return ['result' => 'ok', 'full' => '/uploads/full/' . $image, 'thumb' => '/uploads/thumbs/' . $image];
+            return ['result' => 'ok', 'name' => $image, 'full' => '/uploads/full/' . $image, 'thumb' => '/uploads/thumbs/' . $image];
         }
         return ['result' => 'fail'];
     }
