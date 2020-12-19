@@ -48,7 +48,7 @@ class Post extends \yii\db\ActiveRecord
             [['created_at', 'modified_at'], 'safe'],
             [['text', 'annotation'], 'string'],
             [['slug', 'title', 'meta_title', 'keywords', 'description'], 'string', 'max' => 255],
-            [['media'], 'string', 'max' => 20],
+            [['media'], 'string', 'max' => 255],
             [['slug'], 'unique'],
             [['created_at'], 'unique'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
