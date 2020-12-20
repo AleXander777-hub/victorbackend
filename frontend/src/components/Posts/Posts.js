@@ -119,11 +119,9 @@ class Posts extends React.Component {
   async deleteArticle(id) {
     console.log("Hey");
     await this.props.PostDelete(id);
-    await this.getAllPosts();
+    window.location.href = "/Posts";
   }
   componentDidMount() {
-    const id = this.props.match.params.id;
-    console.log(id, "SL");
     this.getAllPosts();
   }
   render() {
@@ -159,12 +157,10 @@ class Posts extends React.Component {
                     variant="top"
                     src={thumb_path + n.media}
                     style={{ width: "18rem" }}
-                    className="ml-3 mt-3"
                   />
-                  <Card.Title className="ml-3 mt-3">{n.title}</Card.Title>
-                  <Card.Text className="ml-3 mt-3">
-                    {ReactHtmlParser(n.text)}
-                  </Card.Text>
+                  <Card.Title>{n.title}</Card.Title>
+
+                  {ReactHtmlParser(n.text)}
 
                   <Row>
                     <Col>

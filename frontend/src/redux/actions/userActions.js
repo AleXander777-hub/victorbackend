@@ -143,13 +143,14 @@ export const BungNewPostPlog = (
 export const PostDelete = (id) =>
   async function (dispatch) {
     console.log(id, "Here");
-
-    userAPI.delete(`/api/posts/${id}`).then((res) => {
-      console.log(res, "Success");
-      dispatch({
-        type: types.DELETE_POST,
+    try {
+      const response = await userAPI.delete(`/api/posts/${id}`).then((res) => {
+        console.log(res, "Success");
+        return response;
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
 
     /*.catch((error) => {
           if (error.response) {
