@@ -152,7 +152,9 @@ class Posts extends React.Component {
         </div>
         <div className="container">
           <div className="mt-3 mb-3">
-            {this.props && this.props.paginate ? (
+            {this.props &&
+            this.props.paginate &&
+            this.props.posts.length > 0 ? (
               `Показаны записи ${this.props.paginate.currentPage} -
                     ${this.props.paginate.totalCount} из
                     ${this.props.paginate.totalCount}`

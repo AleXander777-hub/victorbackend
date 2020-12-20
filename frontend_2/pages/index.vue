@@ -1,5 +1,5 @@
 <template>
-  <paginated :posts="posts" :full_path="full_path" />
+  <paginated :posts="posts" :full_path="full_path" :pagination="pagination" />
 </template>
 
 <script>
@@ -27,25 +27,26 @@ export default {
     var tags =
       response &&
       response.data &&
-      response.data.map((n, i) => {
+      response.data.items.map((n, i) => {
         return n.keywords;
       });
     var meta_tags = tags.join();
-    var posts = response.data;
+    var posts = response.data.items;
     var pagination = [];
     for (let i = 1; i <= response.data.num_pages; i++) {
       pagination.push(i);
     }
-    var pagination_data = response.data;
+    var pagination = response.data._meta;
 
-    return { posts, meta_tags };
+    return { posts, meta_tags, pagination };
   },
 
   data() {
     return {
       posts: [],
       full_path: "/uploads/full/",
-      meta_tags: ""
+      meta_tags: "",
+      pagination: []
     };
   }
 };

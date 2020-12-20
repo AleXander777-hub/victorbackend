@@ -8,6 +8,11 @@
       ><i class="fa fa-angle-up">Вверх</i></a
     >
     <div class="container mt-5">
+      <div v-if="pagination && posts && posts.length > 0">
+        Показаны записи {{ pagination.currentPage }} -
+        {{ pagination.totalCount }} из {{ pagination.totalCount }}
+      </div>
+
       <div class="row">
         <div class="col-12 col-lg-8">
           <posts :posts="posts" />
