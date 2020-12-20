@@ -12,6 +12,7 @@ import {
   Row,
 } from "react-bootstrap";
 import ReactHtmlParser from "react-html-parser";
+import { thumb_path } from "../utils";
 
 class UpdatePost extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class UpdatePost extends React.Component {
       is_commentable: Number,
       is_enable: Number,
       slug: "",
+      media: "",
 
       meta_title: "",
       keywords: "",
@@ -45,9 +47,13 @@ class UpdatePost extends React.Component {
   async uploadPicture(e) {
     e.preventDefault();
     console.log(this.state.file, "File");
-    console.log(this.props.user.createdProduct.id, "Props up");
 
-    // await this.props.UserUploadPicture()
+    await this.props.Upload(this.state.file);
+    if (this.props.user.file_upload != null) {
+      this.setState({
+        media: this.props.user.file_upload.name,
+      });
+    }
   }
   handleEditorChange(e) {
     this.setState({
@@ -147,9 +153,10 @@ class UpdatePost extends React.Component {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
+      console.log(reader.result, "RES");
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result,
+        //media: reader.result,
       });
     };
 
@@ -172,7 +179,7 @@ class UpdatePost extends React.Component {
     const description = this.state.description;
     const status = this.state.status;
     const created_at = this.state.created_at;
-    const media = "htt";
+    const media = this.state.media;
     const text = this.state.text;
     const annotation = this.state.annotation;
     const author_id = localStorage.getItem("user_data");
@@ -216,6 +223,7 @@ class UpdatePost extends React.Component {
       created_at: this.props.user.post.created_at,
       text: this.props.user.post.text,
       annotation: this.props.user.post.annotation,
+      media: this.props.user.post.media,
     });
   }
 
@@ -423,11 +431,15 @@ class UpdatePost extends React.Component {
             </Col>
           </Row>
 
-          {this.state.imagePreviewUrl !== "" ? (
-            <Card className="mb-3 " style={{ width: "50%" }}>
-              <Image src={this.state.imagePreviewUrl} fluid />
-            </Card>
-          ) : null}
+          <Card className="mb-3 " style={{ width: "50%" }}>
+            <Image src={thumb_path + this.state.media} fluid />
+          </Card>
+          <button
+            className="btn btn-primary"
+            onClick={(e) => this.uploadPicture(e)}
+          >
+            Upload
+          </button>
 
           <Button type="submit">Submit form</Button>
         </Form>

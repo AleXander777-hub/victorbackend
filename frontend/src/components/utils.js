@@ -13,6 +13,6 @@ export const setUserToken = (userAPI, data) => {
   userAPI.defaults.headers.common["Authorization"] = `Bearer ${data}`;
   return data;
 };
-export const full_path = "/uploads/full/";
+export const full_path = "http://export.mysite/uploads/full/";
 
-export const thumb_path = "/uploads/thumbs/";
+export const thumb_path = "http://export.mysite/uploads/thumbs/";

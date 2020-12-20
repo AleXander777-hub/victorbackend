@@ -161,8 +161,10 @@ class Posts extends React.Component {
                     style={{ width: "18rem" }}
                     className="ml-3 mt-3"
                   />
-                  <Card.Title>{n.title}</Card.Title>
-                  <Card.Text>{ReactHtmlParser(n.text)}</Card.Text>
+                  <Card.Title className="ml-3 mt-3">{n.title}</Card.Title>
+                  <Card.Text className="ml-3 mt-3">
+                    {ReactHtmlParser(n.text)}
+                  </Card.Text>
 
                   <Row>
                     <Col>

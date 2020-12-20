@@ -13,7 +13,10 @@
           <div class="single-blog-post featured-post mb-30">
             <div class="mb-3 mt-3">
               <div v-if="article.media != null" class="mb-5">
-                <img :src="article.media" style="width:100%" />:
+                <img
+                  :src="`http://export.mysite/uploads/full/` + article.media"
+                  style="width:100%"
+                />:
               </div>
               <div v-else class="mb-5">
                 <div class="empty mt-3 mb-3"></div>

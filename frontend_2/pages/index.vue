@@ -1,9 +1,10 @@
 <template>
-  <paginated :posts="posts" />
+  <paginated :posts="posts" :full_path="full_path" />
 </template>
 
 <script>
 import Paginated from "../components/Paginated.vue";
+import axios from "axios";
 
 export default {
   head() {
@@ -21,7 +22,7 @@ export default {
   },
   components: { Paginated },
   async asyncData({ $axios }) {
-    var response = await $axios.get(`/api/posts`);
+    var response = await $axios.get(`http://export.mysite/api/posts`);
 
     var tags =
       response &&
@@ -43,7 +44,7 @@ export default {
   data() {
     return {
       posts: [],
-
+      full_path: "/uploads/full/",
       meta_tags: ""
     };
   }

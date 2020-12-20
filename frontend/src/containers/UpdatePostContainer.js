@@ -6,6 +6,7 @@ import {
   GetOnePost,
   PostDelete,
   PostUpdate,
+  UserUploadPicture,
 } from "../redux/actions/userActions";
 
 class UpdatePostContainer extends Component {
@@ -20,6 +21,7 @@ class UpdatePostContainer extends Component {
         GetOne={this.props.GetOnePostAction}
         Update={this.props.UpdatePostAction}
         user={this.props.user}
+        Upload={this.props.UploadAction}
       />
     );
   }
@@ -64,6 +66,7 @@ const mapDispatchToProps = (dispatch) => {
           id
         )
       ),
+    UploadAction: (file) => dispatch(UserUploadPicture(file)),
   };
 };
 

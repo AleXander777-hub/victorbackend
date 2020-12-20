@@ -4,7 +4,10 @@
       <div class="single-blog-post featured-post mb-30">
         <div class="mb-3 mt-3">
           <div v-if="post.media != null" class="mb-5">
-            <img :src="post.media" style="width:100%" />
+            <img
+              :src="`http://export.mysite/uploads/thumbs/` + post.media"
+              style="width:100%"
+            />
           </div>
           <div v-else class="mb-5">
             <div class="empty mt-3 mb-3"></div>
@@ -43,6 +46,6 @@
 
 <script>
 export default {
-  props: ["posts"]
+  props: ["posts", "full_path"]
 };
 </script>
