@@ -38,9 +38,10 @@ export const GetAllPosts = () =>
       console.log(res, "POSTS");
       dispatch({
         type: types.GET_ALL_POSTS,
-        payload: res.data,
+        payload: res.data.items,
+        paginate: res.data._meta,
       });
-      console.log("there");
+      console.log(res, "Response");
     });
   };
 export const BungNewPostPlog = (

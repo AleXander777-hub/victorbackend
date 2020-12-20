@@ -15,6 +15,7 @@ class PostsContainer extends Component {
         history={this.props.history}
         PostDelete={this.props.PostDeleteAction}
         success_delete={this.props.user.success_delete}
+        paginate={this.props.user.paginate}
       />
     );
   }

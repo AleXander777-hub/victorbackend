@@ -136,6 +136,9 @@ class Posts extends React.Component {
         pages.push(i);
       }
     }
+    this.props &&
+      this.props.user &&
+      console.log(this.props.user.paginate.currentPage, "CU");
 
     return (
       <Fragment>
@@ -148,6 +151,16 @@ class Posts extends React.Component {
           </Button>
         </div>
         <div className="container">
+          <div className="mt-3 mb-3">
+            {this.props && this.props.paginate ? (
+              `Показаны записи ${this.props.paginate.currentPage} -
+                    ${this.props.paginate.totalCount} из
+                    ${this.props.paginate.totalCount}`
+            ) : (
+              <div className="empty"></div>
+            )}
+          </div>
+
           {this.props &&
             this.props.posts &&
             this.props.posts.map((n, i) => (

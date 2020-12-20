@@ -19,6 +19,10 @@ use yii\web\ForbiddenHttpException;
 class PostController extends ActiveController
 {
     public $modelClass = 'app\models\Post';
+    public $serializer = [
+        'class' => 'yii\rest\Serializer',
+        'collectionEnvelope' => 'items',
+    ];
 
     /**
      * List of allowed domains.
@@ -85,6 +89,7 @@ class PostController extends ActiveController
     {
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        
         return $actions;
     }
 
@@ -132,6 +137,27 @@ class PostController extends ActiveController
         $searchModel = new \app\models\PostSearch();
         return $searchModel->search(\Yii::$app->request->queryParams);
     }
+
+    public function actionIndex()
+    {
+        return new ActiveDataProvider([
+            'query' => Post::find(),
+            'allModels' => $query->from('post')->all(),
+        'sort' => [
+            'attributes' => ['category'],
+        ],
+        'pagination' => [
+            
+        'pageCount'=> 3,
+        'currentPage'=> 1,
+        'perPage'=> 20
+        ],
+            ]);
+        
+    }
+
+    
+        
 
 
     public function actionLogin($email, $password) {

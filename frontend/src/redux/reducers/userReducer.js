@@ -9,6 +9,7 @@ export const DefaultState = {
   post: null,
   file_upload: null,
   upload_success: false,
+  paginate: null,
 };
 
 export const userReducer = (state = DefaultState, action) => {
@@ -23,6 +24,7 @@ export const userReducer = (state = DefaultState, action) => {
       return {
         ...state,
         posts: action.payload,
+        paginate: action.paginate,
       };
     case types.CREATE_POST:
       return {
