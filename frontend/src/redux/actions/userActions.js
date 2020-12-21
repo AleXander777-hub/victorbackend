@@ -14,10 +14,12 @@ export const LoginUser = (username, password) =>
     axios({
       method: "get",
       url: "http://export.mysite/api/",
+      //url: "http://blog.mysite/api/",
       params: params,
       withCredentials: true,
       headers: {
         Authorization: "Basic " + toBase64(username + ":" + password),
+        Origin: "*",
       },
     }).then((res) => {
       setUserToken(userAPI, res.data.access_token);
@@ -30,19 +32,26 @@ export const LoginUser = (username, password) =>
       });
     });
   };
-export const GetAllPosts = () =>
+export const GetAllPosts = ({ perPage = 2, page = 1 } = {}) =>
   async function (dispatch) {
-    console.log("Here");
+    console.log(page, "Here");
 
-    await axios.get("http://export.mysite/api/posts").then((res) => {
-      console.log(res, "POSTS");
-      dispatch({
-        type: types.GET_ALL_POSTS,
-        payload: res.data.items,
-        paginate: res.data._meta,
+    await axios
+      .get("http://export.mysite/api/posts", {
+        params: {
+          "per-page": perPage,
+          page: page,
+        },
+      })
+      .then((res) => {
+        console.log(res, "POSTS");
+        dispatch({
+          type: types.GET_ALL_POSTS,
+          payload: res.data.items,
+          paginate: res.data._meta,
+        });
+        console.log(res, "Response");
       });
-      console.log(res, "Response");
-    });
   };
 export const BungNewPostPlog = (
   category_id,

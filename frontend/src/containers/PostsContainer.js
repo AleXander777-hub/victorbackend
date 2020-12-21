@@ -23,7 +23,7 @@ class PostsContainer extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    GetAllPostsAction: () => dispatch(GetAllPosts()),
+    GetAllPostsAction: (page) => dispatch(GetAllPosts(page)),
     PostDeleteAction: (id) => dispatch(PostDelete(id)),
   };
 };

@@ -113,8 +113,9 @@ class Posts extends React.Component {
       window.location.href = "/newsList/pages/1";
     }
   }
-  async getAllPosts() {
-    await this.props.GetAllPosts();
+  async getAllPosts(page) {
+    console.log(page, "PAGE2");
+    await this.props.GetAllPosts({ page: page });
   }
   async deleteArticle(id) {
     console.log("Hey");
@@ -122,7 +123,9 @@ class Posts extends React.Component {
     window.location.href = "/Posts";
   }
   componentDidMount() {
-    this.getAllPosts();
+    const page = this.props.match.params.page;
+    console.log(page, "PAGE");
+    this.getAllPosts(page);
   }
   render() {
     console.log(this.props, "PROPS");
@@ -132,7 +135,7 @@ class Posts extends React.Component {
       this.props.user.news.map((n, i) => console.log(n.created_at, "N"));
     let pages = [];
     if (this.props.paginate) {
-      for (let i = 1; i <= this.props.paginate.num_pages; i++) {
+      for (let i = 1; i <= this.props.paginate.pageCount; i++) {
         pages.push(i);
       }
     }
@@ -151,7 +154,7 @@ class Posts extends React.Component {
           </Button>
         </div>
         <div className="container">
-          <div className="mt-3 mb-3">
+          {/*<div className="mt-3 mb-3">
             {this.props &&
             this.props.paginate &&
             this.props.posts.length > 0 ? (
@@ -161,7 +164,7 @@ class Posts extends React.Component {
             ) : (
               <div className="empty"></div>
             )}
-          </div>
+          </div>*/}
 
           {this.props &&
             this.props.posts &&
@@ -202,14 +205,13 @@ class Posts extends React.Component {
               </Card>
             ))}
           <Pagination>
-            {this.props.paginate && this.props.paginate.num_pages > 1
+            {this.props.paginate && this.props.paginate.pageCount > 1
               ? pages.map((p, index) => (
                   <Pagination.Item
                     key={index}
-                    active={p === this.props.paginate.page_number}
-                    onClick={() =>
-                      (window.location.href = `/newsList/pages/${p}`)
-                    }
+                    active={p === this.props.paginate.currentPage}
+                    //onClick={() => (window.location.href = `/Posts/${p}`)}
+                    href={`/Posts/${p}`}
                   >
                     {p}
                   </Pagination.Item>

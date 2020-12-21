@@ -29,7 +29,7 @@ class App extends Component {
           <NavBar />
           <Switch>
             <Route path={"/"} exact component={Home} />
-            <Route path={"/Posts"} component={PostsContainer} />
+            <Route path={"/Posts/:page"} component={PostsContainer} />
             <Route path={"/create"} component={CreatePostContainer} />
             <Route path={"/update/:id"} component={UpdatePostContainer} />
           </Switch>
