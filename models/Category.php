@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "category".
@@ -55,4 +56,12 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Post::className(), ['category_id' => 'id']);
     }
+
+    public static function getFullList()
+    {
+        $items = self::find()->all();
+        return  ArrayHelper::map($items, 'id', 'name');
+    }
+
+
 }

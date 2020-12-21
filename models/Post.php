@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\web\Link;
+use yii\web\Linkable;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "post".
@@ -44,7 +48,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['category_id', 'author_id', 'is_commentable', 'is_enable', 'status'], 'integer'],
-            [['created_at', 'is_commentable', 'slug', 'title', 'status', 'text'], 'required'],
+            [['is_commentable', 'slug', 'title', 'status', 'text'], 'required'],
             [['created_at', 'modified_at'], 'safe'],
             [['text', 'annotation'], 'string'],
             [['slug', 'title', 'meta_title', 'keywords', 'description'], 'string', 'max' => 255],
@@ -81,6 +85,20 @@ class Post extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                // Да это новая запись (insert)
+                $this->created_at = date('Y-m-d H:i:s');
+                $this->author_id = Yii::$app->user->id;
+            }
+            $this->modified_at = date('Y-m-d H:i:s');
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Gets query for [[Category]].
      *
@@ -99,5 +117,12 @@ class Post extends \yii\db\ActiveRecord
     public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+
+    public function getLinks()
+    {
+        return [
+            Link::REL_SELF => Url::to(['api/post/view', 'id' => $this->id], true),
+        ];
     }
 }

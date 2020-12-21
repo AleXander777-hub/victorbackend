@@ -12,17 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->errorSummary($model) ?>
 
-    <?= $form->field($model, 'author_id')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?= $form->field($model, 'category_id')->dropDownList(\app\models\Category::getFullList()) ?>
 
     <?= $form->field($model, 'is_commentable')->textInput() ?>
 
     <?= $form->field($model, 'is_enable')->textInput() ?>
-
-    <?= $form->field($model, 'modified_at')->textInput() ?>
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 

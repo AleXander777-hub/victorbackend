@@ -138,7 +138,7 @@ class PostController extends ActiveController
         return $searchModel->search(\Yii::$app->request->queryParams);
     }
 
-    public function actionIndex()
+  /*  public function actionIndex()
     {
         return new ActiveDataProvider([
             'query' => Post::find(),
@@ -154,7 +154,7 @@ class PostController extends ActiveController
         ],
             ]);
         
-    }
+    }*/
 
     
         
