@@ -8,41 +8,39 @@
       ><i class="fa fa-angle-up">Вверх</i></a
     >
     <div class="container mt-5">
-      <div v-if="pagination && posts && posts.length > 0">
+      <!--<div v-if="pagination && posts && posts.length > 0">
         Показаны записи {{ pagination.currentPage }} -
         {{ pagination.totalCount }} из {{ pagination.totalCount }}
-      </div>
+      </div>!-->
 
       <div class="row">
         <div class="col-12 col-lg-8">
           <posts :posts="posts" />
         </div>
+        <div v-if="pagination_data && pagination_data.pageCount > 1">
+          <div
+            v-for="pag in pagination"
+            :key="pag.index"
+            class="container-pag pagination"
+          >
+            <span v-if="pag === pagination_data.currentPage"
+              ><a href="/" class="active">{{ pag }}</a></span
+            >
+            <span v-else
+              ><nuxt-link :to="`/${pag}`">{{ pag }}</nuxt-link></span
+            >
+          </div>
+        </div>
 
-        <div class="col-12 col-lg-4 mt-5">
+        <div class="col-12 col-lg-4 mt-5 mb-3">
           <sidebar />
         </div>
-      </div>
-      <div v-if="pagination_data && pagination_data.num_pages > 1">
-        <div
-          v-for="pag in pagination"
-          :key="pag.index"
-          class="container-pag pagination"
-        >
-          <span v-if="pag === pagination_data.page_number"
-            ><a href="/" class="active">{{ pag }}</a></span
-          >
-          <span v-else
-            ><nuxt-link :to="`/${pag}`">{{ pag }}</nuxt-link></span
-          >
-        </div>
-      </div>
-      <div v-else>
-        <div class="empty mt-3 mb-3"></div>
       </div>
     </div>
   </div>
 </template>
 <script>
+console.log(pagination_data, "Props");
 $(document).ready(function() {
   $(window).scroll(function() {
     if ($(this).scrollTop() > 0) {
@@ -67,6 +65,7 @@ $(document).ready(function() {
 import Posts from "./Posts.vue";
 import Article from "./Article.vue";
 import Sidebar from "./Sidebar.vue";
+
 export default {
   components: { Posts, Article, Sidebar },
   props: ["posts", "pagination", "pagination_data", "article"],

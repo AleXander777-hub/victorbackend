@@ -1,5 +1,10 @@
 <template>
-  <paginated :posts="posts" :full_path="full_path" :pagination="pagination" />
+  <paginated
+    :posts="posts"
+    :full_path="full_path"
+    :pagination="pagination"
+    :pagination_data="pagination_data"
+  />
 </template>
 
 <script>
@@ -21,8 +26,13 @@ export default {
     };
   },
   components: { Paginated },
-  async asyncData({ $axios }) {
-    var response = await $axios.get(`http://export.mysite/api/posts`);
+  async asyncData({ $axios, params }, { perPage = 2, page = 1 } = {}) {
+    var response = await $axios.get(`http://export.mysite/api/posts`, {
+      params: {
+        "per-page": perPage,
+        page: page
+      }
+    });
 
     var tags =
       response &&
@@ -33,12 +43,14 @@ export default {
     var meta_tags = tags.join();
     var posts = response.data.items;
     var pagination = [];
-    for (let i = 1; i <= response.data.num_pages; i++) {
+    for (let i = 1; i <= response.data._meta.pageCount; i++) {
       pagination.push(i);
     }
-    var pagination = response.data._meta;
+    console.log(pagination, "PAG");
+    var pagination_data = response.data._meta;
+    console.log(pagination_data, "DATA");
 
-    return { posts, meta_tags, pagination };
+    return { posts, meta_tags, pagination, pagination_data };
   },
 
   data() {
@@ -46,7 +58,8 @@ export default {
       posts: [],
       full_path: "/uploads/full/",
       meta_tags: "",
-      pagination: []
+      pagination: [],
+      pagination_data: []
     };
   }
 };
