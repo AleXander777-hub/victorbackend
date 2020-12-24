@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     BungNewPostPlogAction: (
       category_id,
       is_commentable,
-      is_enable,
+      is_enabled,
       slug,
       title,
       meta_title,
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
         BungNewPostPlog(
           category_id,
           is_commentable,
-          is_enable,
+          is_enabled,
           slug,
           title,
           meta_title,

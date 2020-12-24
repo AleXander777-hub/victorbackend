@@ -5,7 +5,7 @@
         <div class="mb-3 mt-3">
           <div v-if="post.media != null" class="mb-5">
             <img
-              :src="`http://export.mysite/uploads/thumbs/` + post.media"
+              :src="`https://export.dmitxe.ru/uploads/thumbs/` + post.media"
               style="width:100%"
             />
           </div>

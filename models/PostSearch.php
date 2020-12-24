@@ -48,7 +48,11 @@ class PostSearch extends Post
             'query' => $query,
             'pagination' => [
                 'pageSize' => 2,
+                
             ],
+            /*'sort' => [
+                'attributes' => ['category'],
+            ],*/
         ]);
 
         $this->load($params);

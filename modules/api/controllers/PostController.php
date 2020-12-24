@@ -34,9 +34,16 @@ class PostController extends ActiveController
     {
         return [
             // '*',                        // star allows all domains
-            'http://export.mystite',
+            'http://export.mysite',
             'http://localhost:3000',
             'http://localhost:3030',
+            'http://localhost:3033',
+            "http://alex.dmitxe.ru",
+            "https://alex.dmitxe.ru",
+            "http://alex.dmitxe.ru:3333",
+            "https://xn--80ahyfc6d7ba.xn--80aabfyii3adadgocjt5p1b.xn--p1ai",
+            "https://xn--80aabfyii3adadgocjt5p1b.xn--p1ai"
+
             
         ];
     }

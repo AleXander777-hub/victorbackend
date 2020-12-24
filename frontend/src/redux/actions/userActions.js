@@ -1,6 +1,6 @@
 import axios from "axios-jsonp-pro";
 import { toBase64 } from "js-base64";
-import { setUserToken, userAPI } from "../../components/utils";
+import { setUserToken, userAPI, userAPI2 } from "../../components/utils";
 import { types } from "./types";
 
 export const LoginUser = (username, password) =>
@@ -13,13 +13,12 @@ export const LoginUser = (username, password) =>
     };
     axios({
       method: "get",
-      url: "http://export.mysite/api/",
-      //url: "http://blog.mysite/api/",
+      //url: "http://export.mysite/api/",
+      url: "https://export.dmitxe.ru/api/",
       params: params,
       withCredentials: true,
       headers: {
         Authorization: "Basic " + toBase64(username + ":" + password),
-        Origin: "*",
       },
     }).then((res) => {
       setUserToken(userAPI, res.data.access_token);
@@ -35,9 +34,10 @@ export const LoginUser = (username, password) =>
 export const GetAllPosts = ({ perPage = 2, page = 1 } = {}) =>
   async function (dispatch) {
     console.log(page, "Here");
-
+    //blog1 - /api/posts
+    //blog2 - http://blog.mysite/api/article
     await axios
-      .get("http://export.mysite/api/posts", {
+      .get("https://export.dmitxe.ru/api/posts", {
         params: {
           "per-page": perPage,
           page: page,
@@ -56,7 +56,7 @@ export const GetAllPosts = ({ perPage = 2, page = 1 } = {}) =>
 export const BungNewPostPlog = (
   category_id,
   is_commentable,
-  is_enable,
+  is_enabled,
   slug,
   title,
   meta_title,
@@ -73,7 +73,7 @@ export const BungNewPostPlog = (
     console.log(
       category_id,
       is_commentable,
-      is_enable,
+      is_enabled,
       slug,
       title,
       meta_title,
@@ -86,8 +86,10 @@ export const BungNewPostPlog = (
       annotation,
       author_id,
 
-      "Here"
+      "BAAAAAAANG"
     );
+    console.log(title, "Title");
+    console.log(slug, "Slug");
     const config = {
       headers: { Authorization: `Bearer 5fdb72a24a764` },
     };
@@ -96,21 +98,38 @@ export const BungNewPostPlog = (
       key: "value",
     };
     const qs = require("querystring");
+
+    /* "category_id": "2",
+    "is_commentable": "1",
+    "author_id": 8,
+    "image": "fgff",
+    "annotation": "ddd",
+    "text": "ddd",
+    "meta_title": "ddd",
+    "keywords": "ddd",
+    "description": "d",
+    "created_at": "2020-12-22 10:37:43",
+    "is_enabled": "1",
+    "slug": "test",
+    "title": "test",
+    "updated_at": "2020-12-22 10:37:43",
+    "id": 20*/
+
     userAPI
       .post(
         "/api/posts",
         qs.stringify({
           category_id: category_id,
           is_commentable: is_commentable,
-          is_enable: is_enable,
+          is_enabled: is_enabled,
           slug: slug,
           title: title,
           meta_title: meta_title,
           keywords: keywords,
           description: description,
-          status: status,
+
           created_at: created_at,
-          media: media,
+          image: media,
           text: text,
           annotation: annotation,
           author_id: author_id,
@@ -134,8 +153,9 @@ export const BungNewPostPlog = (
         }
       });
 
-    /*.catch((error) => {
+    /* .catch((error) => {
         if (error.response) {
+          console.log("HERE");
           alert(
             "У вас ошибка с кодом" +
               " " +
@@ -211,7 +231,7 @@ export const GetOnePost = (id) =>
 export const PostUpdate = (
   category_id,
   is_commentable,
-  is_enable,
+  is_enabled,
   slug,
   title,
   meta_title,
@@ -229,7 +249,7 @@ export const PostUpdate = (
     console.log(
       category_id,
       is_commentable,
-      is_enable,
+      is_enabled,
       slug,
       title,
       meta_title,
@@ -244,6 +264,20 @@ export const PostUpdate = (
       id,
       "Here"
     );
+    /* category_id: category_id,
+          is_commentable: is_commentable,
+          is_enabled: is_enabled,
+          slug: slug,
+          title: title,
+          meta_title: meta_title,
+          keywords: keywords,
+          description: description,
+
+          created_at: created_at,
+          image: media,
+          text: text,
+          annotation: annotation,
+          author_id: author_id,*/
     const config = {
       headers: { Authorization: `Bearer 5fdb72a24a764` },
     };
@@ -258,15 +292,14 @@ export const PostUpdate = (
         qs.stringify({
           category_id: category_id,
           is_commentable: is_commentable,
-          is_enable: is_enable,
+          is_enabled: is_enabled,
           slug: slug,
           title: title,
           meta_title: meta_title,
           keywords: keywords,
           description: description,
-          status: status,
           created_at: created_at,
-          media: media,
+          image: media,
           text: text,
           annotation: annotation,
           author_id: author_id,

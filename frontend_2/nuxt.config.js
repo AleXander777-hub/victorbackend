@@ -39,7 +39,7 @@ export default {
     "@nuxtjs/axios"
   ],
   axios: {
-    baseURL: "http://export.mysite"
+    baseURL: "https://export.dmitxe.ru"
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

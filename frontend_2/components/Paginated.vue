@@ -16,19 +16,19 @@
       <div class="row">
         <div class="col-12 col-lg-8">
           <posts :posts="posts" />
-        </div>
-        <div v-if="pagination_data && pagination_data.pageCount > 1">
-          <div
-            v-for="pag in pagination"
-            :key="pag.index"
-            class="container-pag pagination"
-          >
-            <span v-if="pag === pagination_data.currentPage"
-              ><a href="/" class="active">{{ pag }}</a></span
+          <div v-if="pagination_data && pagination_data.pageCount > 1">
+            <div
+              v-for="pag in pagination"
+              :key="pag.index"
+              class="container-pag pagination"
             >
-            <span v-else
-              ><nuxt-link :to="`/${pag}`">{{ pag }}</nuxt-link></span
-            >
+              <span v-if="pag === pagination_data.currentPage"
+                ><a href="/" class="active">{{ pag }}</a></span
+              >
+              <span v-else
+                ><nuxt-link :to="`/${pag}`">{{ pag }}</nuxt-link></span
+              >
+            </div>
           </div>
         </div>
 

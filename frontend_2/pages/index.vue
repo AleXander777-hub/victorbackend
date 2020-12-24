@@ -27,7 +27,7 @@ export default {
   },
   components: { Paginated },
   async asyncData({ $axios, params }, { perPage = 2, page = 1 } = {}) {
-    var response = await $axios.get(`http://export.mysite/api/posts`, {
+    var response = await $axios.get(`https://export.dmitxe.ru/api/posts`, {
       params: {
         "per-page": perPage,
         page: page

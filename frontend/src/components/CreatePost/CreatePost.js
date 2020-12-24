@@ -20,7 +20,7 @@ class CreatePost extends React.Component {
       title: "",
       description: "",
       is_commentable: Number,
-      is_enable: Number,
+      is_enabled: Number,
       slug: "",
 
       meta_title: "",
@@ -85,7 +85,7 @@ class CreatePost extends React.Component {
         });
 
         break;
-      case "is_enable":
+      case "is_enabled":
         console.log("meta_description", e.target.value);
         this.setState({
           [e.target.name]: e.target.value,
@@ -158,7 +158,7 @@ class CreatePost extends React.Component {
     e.preventDefault();
     const category_id = this.state.category_id;
     const is_commentable = this.state.is_commentable;
-    const is_enable = this.state.is_enable;
+    const is_enabled = this.state.is_enabled;
     const slug = this.state.slug;
     const title = this.state.title;
     const meta_title = this.state.meta_title;
@@ -167,14 +167,17 @@ class CreatePost extends React.Component {
     const status = this.state.status;
     const created_at = this.state.created_at;
     const media = this.props.user.file_upload.name;
+    //const media = "GGGG";
     const text = this.state.text;
     const annotation = this.state.annotation;
     const author_id = localStorage.getItem("user_data");
+    console.log(this.state.title, "TITLE");
+    console.log(this.state.slug, "SLUG");
 
     await this.props.Bung(
       category_id,
       is_commentable,
-      is_enable,
+      is_enabled,
       slug,
       title,
       meta_title,
@@ -305,7 +308,7 @@ class CreatePost extends React.Component {
                 <Form.Label>Включено</Form.Label>
                 <Form.Control
                   type="number"
-                  name="is_enable"
+                  name="is_enabled"
                   className="vacancy_input"
                   onChange={(e) => this.change(e)}
                 />

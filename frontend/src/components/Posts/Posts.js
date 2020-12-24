@@ -120,7 +120,7 @@ class Posts extends React.Component {
   async deleteArticle(id) {
     console.log("Hey");
     await this.props.PostDelete(id);
-    window.location.href = "/Posts";
+    window.location.href = "/Posts/1";
   }
   componentDidMount() {
     const page = this.props.match.params.page;

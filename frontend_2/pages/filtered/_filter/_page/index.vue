@@ -16,7 +16,7 @@ export default {
     console.log(this.meta_tags.length, "Tags");
     if (this.posts.length != 0) {
       return {
-        title: `Экспорт Образования - ${this.posts[0].attributes[1].value}`,
+        title: `Экспорт Образования - ${this.posts[0]}`,
         meta: [{ name: "Keywords", content: this.meta_tags }]
       };
     } else {
@@ -27,30 +27,35 @@ export default {
     }
   },
   components: { Paginated },
-  async asyncData({ $axios, params }, { pageSize = 5, pageNumber = 1 } = {}) {
+  async asyncData({ $axios, params }, { perPage = 2, page = 1 } = {}) {
     var attrs_filter = params.filter;
-
-    var response = await axios.get(`https://edu.itlifehack.ru/public/papers`, {
-      params: {
-        page_size: pageSize,
-        page_number: pageNumber,
-        attrs_filter: JSON.stringify([{ value: attrs_filter, index: 1 }])
+    var foo = encodeURI("PostSearch[category_id]");
+    var response = await axios.get(
+      `https://export.dmitxe.ru/api/posts?PostSearch%5Bcategory_id%5D=2`,
+      {
+        params: {
+          "per-page": perPage,
+          page: page,
+          "PostSearch[category_id]": 2
+        }
       }
-    });
-    var posts = response.data.data;
+    );
+
+    console.log(foo, "foo");
+    var posts = response.data.items;
     var tags =
       response &&
       response.data &&
-      response.data.data.map((n, i) => {
-        return n.attributes[2].value;
+      response.data.items.map((n, i) => {
+        return n.keywords;
       });
     var meta_tags = tags.join();
 
     var pagination = [];
-    for (let i = 1; i <= response.data.num_pages; i++) {
+    for (let i = 1; i <= response.data.pageCount; i++) {
       pagination.push(i);
     }
-    var pagination_data = response.data;
+    var pagination_data = response.data._meta;
 
     return { posts, pagination, pagination_data, meta_tags };
   },

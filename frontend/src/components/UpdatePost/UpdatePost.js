@@ -21,10 +21,9 @@ class UpdatePost extends React.Component {
       title: "",
       description: "",
       is_commentable: Number,
-      is_enable: Number,
+      is_enabled: Number,
       slug: "",
       media: "",
-
       meta_title: "",
       keywords: "",
       text: "",
@@ -32,7 +31,6 @@ class UpdatePost extends React.Component {
       category_id: Number,
       status: Number,
       created_at: "",
-
       annotation: "",
       imagePreviewUrl: "",
     };
@@ -93,7 +91,7 @@ class UpdatePost extends React.Component {
         });
 
         break;
-      case "is_enable":
+      case "is_enabled":
         console.log("meta_description", e.target.value);
         this.setState({
           [e.target.name]: e.target.value,
@@ -171,7 +169,7 @@ class UpdatePost extends React.Component {
     e.preventDefault();
     const category_id = this.state.category_id;
     const is_commentable = this.state.is_commentable;
-    const is_enable = this.state.is_enable;
+    const is_enabled = this.state.is_enabled;
     const slug = this.state.slug;
     const title = this.state.title;
     const meta_title = this.state.meta_title;
@@ -189,7 +187,7 @@ class UpdatePost extends React.Component {
     await this.props.Update(
       category_id,
       is_commentable,
-      is_enable,
+      is_enabled,
       slug,
       title,
       meta_title,
@@ -213,7 +211,7 @@ class UpdatePost extends React.Component {
     this.setState({
       category_id: this.props.user.post.category_id,
       is_commentable: this.props.user.post.is_commentable,
-      is_enable: this.props.user.post.is_enable,
+      is_enabled: this.props.user.post.is_enabled,
       slug: this.props.user.post.slug,
       title: this.props.user.post.title,
       meta_title: this.props.user.post.meta_title,
@@ -223,7 +221,7 @@ class UpdatePost extends React.Component {
       created_at: this.props.user.post.created_at,
       text: this.props.user.post.text,
       annotation: this.props.user.post.annotation,
-      media: this.props.user.post.media,
+      media: this.props.user.post.image,
     });
   }
 
@@ -345,10 +343,10 @@ class UpdatePost extends React.Component {
                 <Form.Label>Включено</Form.Label>
                 <Form.Control
                   type="number"
-                  name="is_enable"
+                  name="is_enabled"
                   className="vacancy_input"
                   onChange={(e) => this.change(e)}
-                  value={this.state.is_enable}
+                  value={this.state.is_enabled}
                 />
               </Form.Group>
             </Col>

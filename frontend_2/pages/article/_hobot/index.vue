@@ -19,7 +19,7 @@ export default {
     console.log(params, "Params");
     var id = params.hobot;
 
-    var response = await axios.get(`http://export.mysite/api/posts/${id}`);
+    var response = await axios.get(`https://export.dmitxe.ru/api/posts/${id}`);
     var article = response.data;
     var tags = response.data.keywords;
 

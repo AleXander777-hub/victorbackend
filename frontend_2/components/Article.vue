@@ -14,7 +14,9 @@
             <div class="mb-3 mt-3">
               <div v-if="article.media != null" class="mb-5">
                 <img
-                  :src="`http://export.mysite/uploads/full/` + article.media"
+                  :src="
+                    `https://export.dmitxe.ru/uploads/full/` + article.media
+                  "
                   style="width:100%"
                 />:
               </div>
