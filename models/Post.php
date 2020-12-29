@@ -119,6 +119,12 @@ class Post extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
 
+
+    public function extraFields()
+{
+    return ['author', "category"];
+}
+
     public function getLinks()
     {
         return [

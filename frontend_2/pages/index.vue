@@ -27,12 +27,17 @@ export default {
   },
   components: { Paginated },
   async asyncData({ $axios, params }, { perPage = 2, page = 1 } = {}) {
-    var response = await $axios.get(`https://export.dmitxe.ru/api/posts`, {
+    var response = await $axios.get(`http://export.mysite/api/posts`, {
       params: {
         "per-page": perPage,
-        page: page
+        page: page,
+        expand: "author,category"
       }
     });
+
+    //var categories = await $axios.get(`http://export.mysite/api/categories`);
+
+    //console.log(categories.data, "Cat");
 
     var tags =
       response &&
@@ -42,6 +47,7 @@ export default {
       });
     var meta_tags = tags.join();
     var posts = response.data.items;
+    console.log(response.data, "DA");
     var pagination = [];
     for (let i = 1; i <= response.data._meta.pageCount; i++) {
       pagination.push(i);

@@ -19,7 +19,7 @@
               style="text-decoration: none !important"
               class="post-catagory"
             >
-              {{ post.category_id }}
+              {{ post.category.name }}
             </nuxt-link>
             <nuxt-link
               :to="`/article/${post.id}`"
@@ -31,7 +31,7 @@
 
             <div class="post-meta">
               <p class="post-author"></p>
-              Автор: {{ post.author_id }}
+              Автор: {{ post.author.username }}
 
               <div v-html="post.text" class="post-excerp">
                 {{ post.text }}

@@ -97,6 +97,10 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['api/post']
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['api/category']
+                ],
             ],
         ],
 
