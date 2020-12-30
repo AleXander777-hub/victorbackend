@@ -21,7 +21,8 @@ export default {
     var response = await $axios.get(`https://export.dmitxe.ru/api/posts`, {
       params: {
         "per-page": perPage,
-        page: page
+        page: page,
+        expand: "author, category"
       }
     });
 
