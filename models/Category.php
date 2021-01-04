@@ -44,6 +44,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'Id категории',
             'slug' => 'Слаг категории',
             'name' => 'Название категории',
+
         ];
     }
 
@@ -56,6 +57,9 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Post::className(), ['category_id' => 'id']);
     }
+
+    
+    
 
     public static function getFullList()
     {
